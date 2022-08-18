@@ -34,7 +34,28 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     setTimeout(() => {
       this.isShowAlert = false;
-    }, 3000);
+    }, 2000);
+  }
+
+  reset(){
+    Swal.fire({
+      title: 'Do you want to reset the game?',
+      text: '',
+      icon: 'warning',
+      showCancelButton: true,
+      customClass: { title: 'swal-style' },
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      allowOutsideClick: false,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.reload();
+      }
+      else
+        return;
+    })
   }
 
   finishGame(playerNumber: number){
@@ -60,7 +81,7 @@ export class AppComponent implements OnInit {
 
       Swal.fire({
         title: "Game Over!",
-        html: 'Winner player is ' + i6length == i13length ? 'Player1 - Player2' : (i6length > i13length ? 'Player1' : 'Player2'),
+        text: "Winner player is " + i6length == i13length ? 'Player1 - Player2' : (i6length > i13length ? 'Player1' : 'Player2'),
         icon: 'warning',
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'OK',
