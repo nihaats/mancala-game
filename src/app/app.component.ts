@@ -55,9 +55,12 @@ export class AppComponent implements OnInit {
         })
       }
 
+      let i6length = this.itemsGroup[6].length;
+      let i13length = this.itemsGroup[13].length;
+
       Swal.fire({
         title: "Game Over!",
-        html: 'Winner player is ' + this.itemsGroup[6].length > this.itemsGroup[13].length ? 'Player1' : 'Player2',
+        html: 'Winner player is ' + i6length == i13length ? 'Player1 - Player2' : (i6length > i13length ? 'Player1' : 'Player2'),
         icon: 'warning',
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'OK',
