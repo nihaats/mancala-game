@@ -76,20 +76,20 @@ $sizes: 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
 }
 
 #store-1, #store-2 {
-  height: 80%;
-  width: 80%;
-  padding: 60% 0 60% 0;
-  /* padding: 35%; */
-  box-sizing: border-box;
-  border-radius: 40px;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/board.png);
-  text-transform: uppercase;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 2;
+      /* height: 54%; */
+    width: 80%;
+    padding: 10% 0 10% 0;
+    /* padding: 35%; */
+    box-sizing: border-box;
+    border-radius: 40px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/board.png);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
 }
 
 #board > div {
