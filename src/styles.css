@@ -1,1 +1,114 @@
-/* You can add global styles to this file, and also import other style files */
+#board {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../src/assets/img/board.png);
+    border-radius: 20px;
+    /* min-height: 25rem; */
+    border: 1px solid;
+}
+/*
+$sizes: 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,40,50,60,70,80,90,100;
+
+@each $i in $sizes {
+  .w-#{$i}{
+    width: round(percentage($i/100));
+  }
+} */
+
+#row-1, #row-2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.hole-1, .hole-2 {
+    border-radius: 50%;
+    width: 115px;
+    height: 115px;
+    position: relative;
+    margin: 10px;
+    box-sizing: border-box;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/board.png);
+    padding: 15px;
+    z-index: 1;
+}
+
+.marker-layer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 15px;
+  box-sizing: border-box;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+}
+
+#col-1, #col-3 {
+  width: 12%;
+  height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  z-index: 1;
+}
+
+.marker {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  background-color: pink;
+  background: radial-gradient(#b400a2, #9e0031);
+  box-shadow: 0 3px 2px rgb(0 0 0 / 30%);
+}
+
+#store-1, #store-2 {
+  height: 80%;
+  width: 80%;
+  padding: 60% 0 60% 0;
+  /* padding: 35%; */
+  box-sizing: border-box;
+  border-radius: 40px;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/board.png);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 2;
+}
+
+#board > div {
+  height: 100%;
+}
+
+#board {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../src/assets/img/board.png);
+  border-radius: 20px;
+}
+
+#col-2 {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
