@@ -46,19 +46,18 @@
 
             <button
               class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[5].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[5].length == 0"
+              [disabled]="!player1 || itemsGroup[5].length == 0 || isShowAlert"
               (click)="playerClicked(5, itemsGroup[5].length)"
             >
               <div class="marker-layer {{itemsGroup[5].length > 6 ? 'p-0' : '' }}">
                 <div class="marker" *ngFor="let item of itemsGroup[5]">
-
                 </div>
               </div>
             </button>
 
             <button
               class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[4].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[4].length == 0"
+              [disabled]="!player1 || itemsGroup[4].length == 0 || isShowAlert"
               (click)="playerClicked(4, itemsGroup[4].length)"
             >
               <div class="marker-layer {{itemsGroup[4].length > 6 ? 'p-0' : '' }}">
@@ -70,7 +69,7 @@
 
             <button
               class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[3].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[3].length == 0"
+              [disabled]="!player1 || itemsGroup[3].length == 0 || isShowAlert"
               (click)="playerClicked(3, itemsGroup[3].length)"
             >
               <div class="marker-layer {{itemsGroup[3].length > 6 ? 'p-0' : '' }}">
@@ -82,7 +81,7 @@
 
             <button
               class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[2].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[2].length == 0"
+              [disabled]="!player1 || itemsGroup[2].length == 0 || isShowAlert"
               (click)="playerClicked(2, itemsGroup[2].length)"
             >
               <div class="marker-layer {{itemsGroup[2].length > 6 ? 'p-0' : '' }}">
@@ -94,7 +93,7 @@
 
             <button
               class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[1].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[1].length == 0"
+              [disabled]="!player1 || itemsGroup[1].length == 0 || isShowAlert"
               (click)="playerClicked(1, itemsGroup[1].length)"
             >
               <div class="marker-layer {{itemsGroup[1].length > 6 ? 'p-0' : '' }}">
@@ -106,7 +105,7 @@
 
             <button
               class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[0].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[0].length == 0"
+              [disabled]="!player1 || itemsGroup[0].length == 0 || isShowAlert"
               (click)="playerClicked(0, itemsGroup[0].length)"
             >
               <div class="marker-layer {{itemsGroup[0].length > 6 ? 'p-0' : '' }}">
