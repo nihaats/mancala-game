@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +31,9 @@ export class AppComponent implements OnInit {
   player2: boolean = false;
   isShowAlert: boolean = true;
 
-  constructor(){}
+  constructor(
+    private ngbModal: NgbModal
+  ){}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -58,16 +62,17 @@ export class AppComponent implements OnInit {
     })
   }
 
+  howToPlay(){
+    this.ngbModal.open(HowToPlayComponent, {size: 'xl'})
+  }
+
   finishGame(playerNumber: number){
-    console.log(playerNumber);
     //oyun bitiş kontrolü
     let stoneCount: number = 0;
     //yuvalardaki toplam taş sayısı kontrolü
     for (let index = (playerNumber == 1 ? 0 : 7); index < (playerNumber == 1 ? 6 : 13); index++) {
       stoneCount += this.itemsGroup[index].length;
     }
-    console.log(stoneCount);
-
     if(stoneCount == 0){
       for (let index = (playerNumber == 2 ? 0 : 7); index < (playerNumber == 2 ? 6 : 13); index++) {
         this.itemsGroup[index].forEach((x: any) => {
@@ -78,10 +83,11 @@ export class AppComponent implements OnInit {
 
       let i6length = this.itemsGroup[6].length;
       let i13length = this.itemsGroup[13].length;
+      let winner = i6length == i13length ? 'Player1 & Player2' : (i6length > i13length ? 'Player1' : 'Player2')
 
       Swal.fire({
         title: "Game Over!",
-        text: "Winner player is " + i6length == i13length ? 'Player1 - Player2' : (i6length > i13length ? 'Player1' : 'Player2'),
+        text: "Winner player is " + winner,
         icon: 'warning',
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'OK',
@@ -119,6 +125,7 @@ export class AppComponent implements OnInit {
             this.itemsGroup[6].push(1);
             this.itemsGroup[i] = [];
             this.itemsGroup[i+1] = [];
+            this.finishGame(1);
             this.player1 = false;
             this.player2 = true;
             return;
@@ -225,6 +232,7 @@ export class AppComponent implements OnInit {
             this.itemsGroup[13].push(1);
             this.itemsGroup[i] = [];
             this.itemsGroup[i+1] = [];
+            this.finishGame(2);
             this.player1 = true;
             this.player2 = false;
             return;
