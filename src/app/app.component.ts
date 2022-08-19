@@ -100,11 +100,11 @@ export class AppComponent implements OnInit {
   playerClicked(i: any,  count: number){
     //Player1 clicked
     if(i < 6){
-      //yuvada bulunan 1 taş hareket ettiğinde, hareket edilen yuvanın karşısındaki yuva indexi'ni verir
+      //When 1 stone in the hole moves, it gives the hole index opposite the next hole.
       let oppositeIndex = (i == 0 ? 11 : (i == 1 ? 10 : (i == 2 ? 9 : (i == 3 ? 8 : (i == 4 ? 7 : 0)))))
-      //yuvada sadece 1 tane taş varsa
+      //if there is only 1 stone in the hole
       if (count == 1) {
-        //bir sonraki yuvanın taş sayısı 0 değilse ve bir sonraki yuva hazine(store) değilse
+        //if the count of stones in the hole is not 0 and next hole is not store
         if(this.itemsGroup[i+1].length != 0 && (i+1) != 6){
           this.itemsGroup[i] = [];
           this.itemsGroup[i+1].push(1);
@@ -112,12 +112,12 @@ export class AppComponent implements OnInit {
           this.player2 = true;
           return;
         }
-        //bir sonraki yuvanın taş sayısı 0'a eşitse ve bir sonraki yuva hazine(store) değilse
+        //if the count of stones in the hole is equal 0 and next hole is not store
         if(this.itemsGroup[i+1].length == 0 && (i+1) != 6){
-          //karşı yuvanın taş sayısı 0 değilse
+          //if the count of stones in the opposite hole is not 0
           if(this.itemsGroup[oppositeIndex].length != 0){
-            //bir sonraki boş yuvamıza, şu anki yuvadan son taşı hareket ettirdiğimizde
-            //karşı yuvanın taşlarını da kendi hazinemize(store) atarız.
+            //We also throw the stones of the opposite hole into our own store.
+            //when we move the last stone from the current hole to our next empty hole
             this.itemsGroup[oppositeIndex].forEach((x: any) => {
               this.itemsGroup[6].push(x);
             });
@@ -130,8 +130,8 @@ export class AppComponent implements OnInit {
             this.player2 = true;
             return;
           }
-          //bir sonraki boş yuvamıza, şu anki yuvadan son taşı hareket ettirdiğimizde
-          //karşı yuvada taş yoksa, kendi taşımız olduğu yerde kalır ve sıra rakibe geçer.
+          //If there is no stone in the opposite hole, our own stone stays where it is and it is the opponent's turn.
+          // when we move the last stone from the current hole to our next empty hole
           if(this.itemsGroup[oppositeIndex].length == 0){
             this.itemsGroup[i] = [];
             this.itemsGroup[i+1].push(1);
@@ -141,7 +141,7 @@ export class AppComponent implements OnInit {
           }
         }
 
-        //bir sonraki yuva hazinemiz(store) ise yuvadaki son taşı hazineye bırakırız ve sıra yine bizde olur
+        //If the next nest is our store, we leave the last stone in our store and it's our turn again.
         if((i+1) == 6){
           this.itemsGroup[i] = [];
           this.itemsGroup[6].push(1);
@@ -152,7 +152,7 @@ export class AppComponent implements OnInit {
         }
 
       }
-      //yuvada 1'den fazla taş varsa
+      //if there are more than 1 stones in the hole
       else {
         this.itemsGroup[i] = [];
         this.itemsGroup[i].push(1);
@@ -170,15 +170,15 @@ export class AppComponent implements OnInit {
           }
           this.itemsGroup[index].push(1);
         }
-        //son taşın düşeceği yuva, hazinemiz ise
+        //if the last stone is in the our hole
         if(end == 6){
           this.player1 = true;
           this.player2 = false;
         }
-        //son taşın düşeceği yuva, karşı tarafın yuvası ise
+        //if the last stone is in the opposite hole
         else if(end > 6){
           let endLength = this.itemsGroup[end].length;
-          //son taşın düştüğü yuvadaki taş sayısı çift ise
+          //If the number of stones in the slot where the last stone fell is even
           if( endLength % 2 == 0){
             this.itemsGroup[end].forEach((x: any) => {
               console.log(x);
@@ -189,14 +189,14 @@ export class AppComponent implements OnInit {
             this.player2 = true;
             return;
           }
-          //son taşın düştüğü yuvadaki taş sayısı tek ise
+          //If the number of stones in the slot where the last stone fell is odd
           if( endLength % 2 == 1){
             this.player1 = false;
             this.player2 = true;
             return;
           }
         }
-        //son taşın düşeceği yuva, kendi yuvalarımızdan biri ise
+        //if the nest where the last stone will fall is one of our own
         else{
           this.player1 = false;
           this.player2 = true;
@@ -207,11 +207,11 @@ export class AppComponent implements OnInit {
 
     //Player2 clicked
     if(i>6){
-      //yuvada bulunan 1 taş hareket ettiğinde, hareket edilen yuvanın karşısındaki yuva indexi'ni verir
+      //When 1 stone in the hole moves, it gives the hole index opposite the next hole.
       let oppositeIndex = (i == 7 ? 4 : (i == 8 ? 3 : (i == 9 ? 2 : (i == 10 ? 1 : (i == 11 ? 0 : 0)))))
-      //yuvada sadece 1 tane taş varsa
+      //if there is only 1 stone in the hole
       if (count == 1) {
-        //bir sonraki yuvanın taş sayısı 0 değilse ve bir sonraki yuva hazine(store) değilse
+        //if the count of stones in the hole is not 0 and next hole is not store
         if(this.itemsGroup[i+1].length != 0 && (i+1) != 13){
           this.itemsGroup[i] = [];
           this.itemsGroup[i+1].push(1);
@@ -219,12 +219,12 @@ export class AppComponent implements OnInit {
           this.player2 = false;
           return;
         }
-        //bir sonraki yuvanın taş sayısı 0'a eşitse ve bir sonraki yuva hazine(store) değilse
+        //if the count of stones in the hole is equal 0 and next hole is not store
         if(this.itemsGroup[i+1].length == 0 && (i+1) != 13){
-          //karşı yuvanın taş sayısı 0 değilse
+          //if the count of stones in the opposite hole is not 0
           if(this.itemsGroup[oppositeIndex].length != 0){
-            //bir sonraki boş yuvamıza, şu anki yuvadan son taşı hareket ettirdiğimizde
-            //karşı yuvanın taşlarını da kendi hazinemize(store) atarız.
+            //We also throw the stones of the opposite hole into our own store.
+            //when we move the last stone from the current hole to our next empty hole
             this.itemsGroup[oppositeIndex].forEach((x: any) => {
               this.itemsGroup[13].push(x);
             });
@@ -237,8 +237,8 @@ export class AppComponent implements OnInit {
             this.player2 = false;
             return;
           }
-          //bir sonraki boş yuvamıza, şu anki yuvadan son taşı hareket ettirdiğimizde
-          //karşı yuvada taş yoksa, kendi taşımız olduğu yerde kalır ve sıra rakibe geçer.
+          //If there is no stone in the opposite hole, our own stone stays where it is and it is the opponent's turn.
+          // when we move the last stone from the current hole to our next empty hole
           if(this.itemsGroup[oppositeIndex].length == 0){
             this.itemsGroup[i] = [];
             this.itemsGroup[i+1].push(1);
@@ -248,7 +248,7 @@ export class AppComponent implements OnInit {
           }
         }
 
-        //bir sonraki yuva hazinemiz(store) ise yuvadaki son taşı hazineye bırakırız ve sıra yine bizde olur
+        //If the next nest is our store, we leave the last stone in our store and it's our turn again.
         if((i+1) == 13){
           this.itemsGroup[i] = [];
           this.itemsGroup[13].push(1);
@@ -259,7 +259,7 @@ export class AppComponent implements OnInit {
         }
 
       }
-      //yuvada 1'den fazla taş varsa
+      //if there are more than 1 stones in the hole
       else {
         this.itemsGroup[i] = [];
         this.itemsGroup[i].push(1);
@@ -281,15 +281,15 @@ export class AppComponent implements OnInit {
 
           this.itemsGroup[index].push(1);
         }
-        //son taşın düşeceği yuva, hazinemiz ise
+        //if the last stone is in the our hole
         if(end == 13){
           this.player1 = false;
           this.player2 = true;
         }
-        //son taşın düşeceği yuva, karşı tarafın yuvası ise
+        //if the last stone is in the opposite hole
         else if(end < 6){
           let endLength = this.itemsGroup[end].length;
-          //son taşın düştüğü yuvadaki taş sayısı çift ise
+          //If the number of stones in the slot where the last stone fell is even
           if( endLength % 2 == 0){
             this.itemsGroup[end].forEach((x: any) => {
               console.log(x);
@@ -300,14 +300,14 @@ export class AppComponent implements OnInit {
             this.player2 = false;
             return;
           }
-          //son taşın düştüğü yuvadaki taş sayısı tek ise
+          //If the number of stones in the slot where the last stone fell is odd
           if( endLength % 2 == 1){
             this.player1 = true;
             this.player2 = false;
             return;
           }
         }
-        //son taşın düşeceği yuva, kendi yuvalarımızdan biri ise
+        //if the nest where the last stone will fall is one of our own
         else{
           this.player1 = true;
           this.player2 = false;
