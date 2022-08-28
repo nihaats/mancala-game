@@ -11,20 +11,28 @@ import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
 export class AppComponent implements OnInit {
 
   itemsGroup: any[] = [
-    [1,2,3,4], //items0
-    [1,2,3,4], //items1
-    [1,2,3,4], //items2
-    [1,2,3,4], //items3
-    [1,2,3,4], //items4
-    [1,2,3,4], //items5
+    [], //items0
+    [], //items1
+    [], //items2
+    [], //items3
+    [], //items4
+    [], //items5
     [], //mancala1
-    [1,2,3,4], //items7
-    [1,2,3,4], //items8
-    [1,2,3,4], //items9
-    [1,2,3,4], //items10
-    [1,2,3,4], //items11
-    [1,2,3,4], //items12
+    [], //items7
+    [], //items8
+    [], //items9
+    [], //items10
+    [], //items11
+    [], //items12
     [], //mancala2
+  ]
+
+  colors: any[] = [
+    '#E53535',
+    '#D71AD0',
+    '#1985F0',
+    '#19F04C',
+    '#F8FF2F',
   ]
 
   player1: boolean = true;
@@ -39,6 +47,8 @@ export class AppComponent implements OnInit {
     setTimeout(() => {
       this.isShowAlert = false;
     }, 2000);
+
+    this.markers();
   }
 
   reset(){
@@ -97,6 +107,22 @@ export class AppComponent implements OnInit {
     }
   }
 
+  markerColor(randomNumber: number){
+    return this.colors[randomNumber];
+  }
+
+  markers(){
+    for (let i = 0; i < 13; i++) {
+      if(i == 6)
+        i++;
+      for (let k = 0; k < 4; k++) {
+        let randNumber = Math.floor(Math.random() * 5);
+        this.itemsGroup[i].push(this.markerColor(randNumber))
+
+      }
+    }
+  }
+
   playerClicked(i: any,  count: number){
     //Player1 clicked
     if(i < 6){
@@ -106,8 +132,8 @@ export class AppComponent implements OnInit {
       if (count == 1) {
         //if the count of stones in the hole is not 0 and next hole is not store
         if(this.itemsGroup[i+1].length != 0 && (i+1) != 6){
-          this.itemsGroup[i] = [];
-          this.itemsGroup[i+1].push(1);
+          let removedItem = this.itemsGroup[i].shift();
+          this.itemsGroup[i+1].push(removedItem);
           this.player1 = false;
           this.player2 = true;
           return;
@@ -121,10 +147,11 @@ export class AppComponent implements OnInit {
             this.itemsGroup[oppositeIndex].forEach((x: any) => {
               this.itemsGroup[6].push(x);
             });
-            this.itemsGroup[oppositeIndex] = [];
-            this.itemsGroup[6].push(1);
-            this.itemsGroup[i] = [];
-            this.itemsGroup[i+1] = [];
+            this.itemsGroup[oppositeIndex]  = []
+
+            let currentItem = this.itemsGroup[i].shift();
+            this.itemsGroup[6].push(currentItem);
+
             this.finishGame(1);
             this.player1 = false;
             this.player2 = true;
@@ -133,8 +160,10 @@ export class AppComponent implements OnInit {
           //If there is no stone in the opposite hole, our own stone stays where it is and it is the opponent's turn.
           // when we move the last stone from the current hole to our next empty hole
           if(this.itemsGroup[oppositeIndex].length == 0){
-            this.itemsGroup[i] = [];
-            this.itemsGroup[i+1].push(1);
+
+            let removedItem = this.itemsGroup[i].shift();
+            this.itemsGroup[i+1].push(removedItem);
+
             this.player1 = false;
             this.player2 = true;
             return;
@@ -143,8 +172,9 @@ export class AppComponent implements OnInit {
 
         //If the next nest is our store, we leave the last stone in our store and it's our turn again.
         if((i+1) == 6){
-          this.itemsGroup[i] = [];
-          this.itemsGroup[6].push(1);
+          let removedItem = this.itemsGroup[i].shift();
+          this.itemsGroup[6].push(removedItem);
+
           this.player1 = true;
           this.player2 = false;
           this.finishGame(1);
@@ -154,11 +184,17 @@ export class AppComponent implements OnInit {
       }
       //if there are more than 1 stones in the hole
       else {
+        let firstItem = this.itemsGroup[i].splice(0, 1);
+        let itemsGroup: any = []
+        this.itemsGroup[i].forEach((x: any) => {
+          itemsGroup.push(x);
+        })
         this.itemsGroup[i] = [];
-        this.itemsGroup[i].push(1);
-        const constantEnd = (i+count)-1;
+        this.itemsGroup[i].push(firstItem);
+
         let end = (i+count)-1;
         let isFirstEntry = true;
+        let index2 = 0;
         for (let index = i+1 ; index <= end ; index++) {
           if(index > 12 && isFirstEntry){
             end = (end % 12) - 1;
@@ -168,7 +204,10 @@ export class AppComponent implements OnInit {
           if(index == 13){
             index++;
           }
-          this.itemsGroup[index].push(1);
+
+          this.itemsGroup[index].push(itemsGroup[index2]);
+          index2++;
+
         }
         //if the last stone is in the our hole
         if(end == 6){
@@ -181,7 +220,6 @@ export class AppComponent implements OnInit {
           //If the number of stones in the slot where the last stone fell is even
           if( endLength % 2 == 0){
             this.itemsGroup[end].forEach((x: any) => {
-              console.log(x);
               this.itemsGroup[6].push(x);
             });
             this.itemsGroup[end] = [];
@@ -202,7 +240,6 @@ export class AppComponent implements OnInit {
           this.player2 = true;
         }
       }
-
     }
 
     //Player2 clicked
@@ -213,8 +250,9 @@ export class AppComponent implements OnInit {
       if (count == 1) {
         //if the count of stones in the hole is not 0 and next hole is not store
         if(this.itemsGroup[i+1].length != 0 && (i+1) != 13){
-          this.itemsGroup[i] = [];
-          this.itemsGroup[i+1].push(1);
+          let removedItem = this.itemsGroup[i].shift();
+          this.itemsGroup[i+1].push(removedItem);
+
           this.player1 = true;
           this.player2 = false;
           return;
@@ -229,9 +267,10 @@ export class AppComponent implements OnInit {
               this.itemsGroup[13].push(x);
             });
             this.itemsGroup[oppositeIndex] = [];
-            this.itemsGroup[13].push(1);
-            this.itemsGroup[i] = [];
-            this.itemsGroup[i+1] = [];
+
+            let currentItem = this.itemsGroup[i].shift();
+            this.itemsGroup[13].push(currentItem);
+
             this.finishGame(2);
             this.player1 = true;
             this.player2 = false;
@@ -240,8 +279,10 @@ export class AppComponent implements OnInit {
           //If there is no stone in the opposite hole, our own stone stays where it is and it is the opponent's turn.
           // when we move the last stone from the current hole to our next empty hole
           if(this.itemsGroup[oppositeIndex].length == 0){
-            this.itemsGroup[i] = [];
-            this.itemsGroup[i+1].push(1);
+            let removedItem = this.itemsGroup[i].shift();
+            this.itemsGroup[i+1].push(removedItem);
+
+
             this.player1 = true;
             this.player2 = false;
             return;
@@ -250,8 +291,10 @@ export class AppComponent implements OnInit {
 
         //If the next nest is our store, we leave the last stone in our store and it's our turn again.
         if((i+1) == 13){
-          this.itemsGroup[i] = [];
-          this.itemsGroup[13].push(1);
+          let removedItem = this.itemsGroup[i].shift();
+          this.itemsGroup[13].push(removedItem);
+
+
           this.player1 = false;
           this.player2 = true;
           this.finishGame(2);
@@ -261,11 +304,20 @@ export class AppComponent implements OnInit {
       }
       //if there are more than 1 stones in the hole
       else {
+        let firstItem = this.itemsGroup[i].splice(0, 1);
+        let itemsGroup: any = []
+        this.itemsGroup[i].forEach((x: any) => {
+          itemsGroup.push(x);
+        })
         this.itemsGroup[i] = [];
-        this.itemsGroup[i].push(1);
+        this.itemsGroup[i].push(firstItem);
+
+
         const constantEnd = (i+count)-1;
         let end = (i+count)-1;
         let isFirstEntry = true;
+        let index2 = 0;
+
         for (let index = i+1 ; index <= end ; index++) {
           if(index > 13 && isFirstEntry){
             end = (end % 13) - 1;
@@ -279,7 +331,8 @@ export class AppComponent implements OnInit {
             index++;
           }
 
-          this.itemsGroup[index].push(1);
+          this.itemsGroup[index].push(itemsGroup[index2]);
+          index2++;
         }
         //if the last stone is in the our hole
         if(end == 13){
@@ -292,7 +345,6 @@ export class AppComponent implements OnInit {
           //If the number of stones in the slot where the last stone fell is even
           if( endLength % 2 == 0){
             this.itemsGroup[end].forEach((x: any) => {
-              console.log(x);
               this.itemsGroup[13].push(x);
             });
             this.itemsGroup[end] = [];
