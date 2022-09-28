@@ -1,1 +1,22 @@
-<p>first-player works!</p>
+<div id="col-1">
+  <button id="store-1" [disabled]="true">
+    <div *ngFor="let item of mainService.store1">
+      <div class="stone" [ngStyle]="{'background': item}"></div>
+    </div>
+  </button>
+</div>
+
+<div id="row-1">
+  <button
+    *ngFor="let item of mainService.player1Holes; let i = index"
+    class="hole-1" [ngStyle]="{'box-shadow': mainService.player1 && mainService.player1Holes[(i-5) * -1].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
+    [disabled]="!mainService.player1 || mainService.player1Holes[(i-5) * -1].length == 0"
+    (click)="player1Clicked((i-5) * -1 , mainService.player1Holes[(i-5) * -1].length)"
+  >
+    <div class="stone-layer {{mainService.player1Holes[(i-5) * -1].length > 6 ? 'p-0' : '' }}" >
+      <div *ngFor="let item of mainService.player1Holes[(i-5 ) * -1]">
+        <div class="stone" [ngStyle]="{'background': item}"></div>
+      </div>
+    </div>
+  </button>
+</div>
