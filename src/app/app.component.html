@@ -11,205 +11,31 @@
     </ul>
   </div>
 </nav>
-<!-- <div class="col-12 text-center" *ngIf="isShowAlert">
-  <div class="alert alert-success" role="alert">
-    <h4>Player1 is playing</h4>
-  </div>
-</div> -->
-<div class="col-12 text-center my-3" >
-  <div *ngIf="!isShowAlert">
-    <i class="fas fa-gamepad fa-5x {{player1 ? 'text-success' : 'text-danger'}}"></i>
-    <h2>Player 1</h2>
-  </div>
-
-  <div *ngIf="isShowAlert" class="alert alert-success" role="alert">
-    <h4>Player1 is playing</h4>
-  </div>
+<div class="col-2 text-end">
+    <h4><b>Turn: </b> {{mainService.player1 ? 'Player1' : 'Player2'}}</h4>
+    <hr>
 </div>
+<div class="col-12 text-center my-3 {{mainService.player1 ? '' : 'opacity-25'}}" >
+    <i class="fas fa-gamepad fa-5x {{mainService.player1 ? 'text-success' : 'text-dark'}}"></i>
+    <h2>Player 1</h2>
+</div>
+
 <div class="text-center p-10">
   <table class="table mb-0">
     <tbody>
       <tr id="board">
-        <td style="width: 14%; border-bottom-width: 0 !important;">
-          <div id="col-1">
-            <button id="store-1" [disabled]="true">
-              <div *ngFor="let item of itemsGroup[6]">
-                <div class="marker" [ngStyle]="{'background': item}"></div>
-              </div>
-            </button>
-          </div>
-        </td>
+
         <td style="border-bottom-width: 0 !important;">
-          <div id="row-1">
-
-            <button
-              class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[5].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[5].length == 0 || isShowAlert"
-              (click)="playerClicked(5, itemsGroup[5].length)"
-            >
-              <div class="marker-layer {{itemsGroup[5].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[5]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[4].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[4].length == 0 || isShowAlert"
-              (click)="playerClicked(4, itemsGroup[4].length)"
-            >
-              <div class="marker-layer {{itemsGroup[4].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[4]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[3].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[3].length == 0 || isShowAlert"
-              (click)="playerClicked(3, itemsGroup[3].length)"
-            >
-              <div class="marker-layer {{itemsGroup[3].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[3]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[2].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[2].length == 0 || isShowAlert"
-              (click)="playerClicked(2, itemsGroup[2].length)"
-            >
-              <div class="marker-layer {{itemsGroup[2].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[2]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[1].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[1].length == 0 || isShowAlert"
-              (click)="playerClicked(1, itemsGroup[1].length)"
-            >
-              <div class="marker-layer {{itemsGroup[1].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[1]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-1" [ngStyle]="{'box-shadow': player1 && itemsGroup[0].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player1 || itemsGroup[0].length == 0 || isShowAlert"
-              (click)="playerClicked(0, itemsGroup[0].length)"
-            >
-              <div class="marker-layer {{itemsGroup[0].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[0]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-          </div>
-
-          <div id="row-2">
-
-            <button
-              class="hole-2" [ngStyle]="{'box-shadow': player2 && itemsGroup[7].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player2 || itemsGroup[7].length == 0"
-              (click)="playerClicked(7, itemsGroup[7].length)"
-            >
-              <div class="marker-layer {{itemsGroup[7].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[7]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-2" [ngStyle]="{'box-shadow': player2 && itemsGroup[8].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player2 || itemsGroup[8].length == 0"
-              (click)="playerClicked(8, itemsGroup[8].length)"
-            >
-              <div class="marker-layer {{itemsGroup[8].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[8]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-2" [ngStyle]="{'box-shadow': player2 && itemsGroup[9].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player2 || itemsGroup[9].length == 0"
-              (click)="playerClicked(9, itemsGroup[9].length)"
-            >
-              <div class="marker-layer {{itemsGroup[9].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[9]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-2" [ngStyle]="{'box-shadow': player2 && itemsGroup[10].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player2 || itemsGroup[10].length == 0"
-              (click)="playerClicked(10, itemsGroup[10].length)"
-            >
-              <div class="marker-layer {{itemsGroup[10].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[10]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-2" [ngStyle]="{'box-shadow': player2 && itemsGroup[11].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player2 || itemsGroup[11].length == 0"
-              (click)="playerClicked(11, itemsGroup[11].length)"
-            >
-              <div class="marker-layer {{itemsGroup[11].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[11]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-            <button
-              class="hole-2" [ngStyle]="{'box-shadow': player2 && itemsGroup[12].length != 0 ?  '0px 1px 6px 3px #198754' : '0px 0px 0px 0px #000'}"
-              [disabled]="!player2 || itemsGroup[12].length == 0"
-              (click)="playerClicked(12, itemsGroup[12].length)"
-            >
-              <div class="marker-layer {{itemsGroup[12].length > 6 ? 'p-0' : '' }}">
-                <div *ngFor="let item of itemsGroup[12]">
-                  <div class="marker" [ngStyle]="{'background': item}"></div>
-                </div>
-              </div>
-            </button>
-
-
-          </div>
-
+          <app-first-player></app-first-player>
+          <app-second-player></app-second-player>
         </td>
-        <td style="width: 14%; border-bottom-width: 0 !important;">
-          <div id="col-3">
-            <button id="store-2" [disabled]="true">
-              <div *ngFor="let item of itemsGroup[13]">
-                <div class="marker" [ngStyle]="{'background': item}"></div>
-              </div>
-            </button>
-          </div>
-        </td>
+
       </tr>
     </tbody>
   </table>
 </div>
-<div class="col-12 text-center my-3">
+
+<div class="col-12 text-center my-3 {{mainService.player2 ? '' : 'opacity-25'}}">
   <h2>Player 2</h2>
-  <i class="fas fa-gamepad fa-5x {{player2 ? 'text-success' : 'text-danger'}}"></i>
+  <i class="fas fa-gamepad fa-5x {{mainService.player2 ? 'text-success' : 'text-dark'}}"></i>
 </div>
-
-
