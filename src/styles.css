@@ -19,7 +19,7 @@
     z-index: 1;
 }
 
-.marker-layer {
+.stone-layer {
   width: 100%;
   height: 100%;
   display: flex;
@@ -48,22 +48,22 @@
   z-index: 1;
 }
 
-.marker {
+.stone {
   border-radius: 50%;
   width: 30px;
   height: 30px;
   box-shadow: 0 3px 2px rgb(0 0 0 / 30%);
 }
 
-#store-1 .marker {
+#store-1 .stone {
   margin: -7px;
 }
 
-#store-2 .marker {
+#store-2 .stone {
   margin: -7px;
 }
 
-#store-1, #store-2 {
+#store-1 {
   border-radius: 15%;
   min-width: 200px;
   flex-wrap: wrap;
@@ -75,6 +75,24 @@
   padding: 15px;
   display: flex;
   z-index: 1;
+  right: 14rem;
+  top: 8rem;
+}
+
+#store-2 {
+  border-radius: 15%;
+  min-width: 200px;
+  flex-wrap: wrap;
+  height: 115px;
+  position: relative;
+  margin: 10px;
+  box-sizing: border-box;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/wood-board.jpg);
+  padding: 15px;
+  display: flex;
+  z-index: 1;
+  left: 52rem;
+  bottom: 9rem;
 }
 
 #board > div {
