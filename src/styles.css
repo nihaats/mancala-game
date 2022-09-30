@@ -69,14 +69,14 @@
   flex-wrap: wrap;
   height: 115px;
   position: relative;
-  margin: 10px;
+  /* margin: 10px; */
   box-sizing: border-box;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/wood-board.jpg);
   padding: 15px;
   display: flex;
   z-index: 1;
-  right: 14rem;
-  top: 8rem;
+  /* right: 14rem; */
+  /* top: 8rem; */
 }
 
 #store-2 {
@@ -108,10 +108,10 @@
   border-radius: 20px;
 }
 
-#col-2 {
+/* #col-2 {
   width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+} */
