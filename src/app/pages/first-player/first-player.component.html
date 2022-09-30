@@ -1,4 +1,80 @@
-<div id="col-1">
+<div class="container">
+
+
+  <div class="row">
+    <div class="col-2 d-flex align-items-center">
+      <button id="store-1" [disabled]="true">
+        <div *ngFor="let item of store1">
+          <div class="stone" [ngStyle]="{'background': item}"></div>
+        </div>
+      </button>
+    </div>
+
+    <div class="col-8" >
+      <table class="table">
+        <!-- begin:: player1 icon -->
+        <thead class="text-center">
+          <tr>
+            <th>
+              <div class="col-12 text-center my-3">
+                <em class="fas fa-gamepad fa-5x"></em>
+                <h2>Player 1</h2>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <!-- end:: player1 icon -->
+        <!-- begin:: board -->
+        <tbody>
+          <tr class="col-12 d-flex text-center" style="flex-wrap: wrap">
+            <td
+              class="col-2 border-0"
+              *ngFor="let item of holesCount; let i = index"
+            >
+              <button
+                class="hole-1"
+                (click)="player1Clicked(i, holesCount[i].length)"
+              >
+                <div class="stone-layer">
+                  <div *ngFor="let item of holesCount[i]">
+                    <div class="stone" [ngStyle]="{ background: item }"></div>
+                  </div>
+                </div>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+        <!-- end:: board -->
+        <!-- begin:: player2 icon -->
+        <thead class="text-center">
+          <tr>
+            <th>
+              <div class="col-12 text-center my-3">
+                <em class="fas fa-gamepad fa-5x"></em>
+                <h2>Player 1</h2>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <!-- end:: player1 icon -->
+      </table>
+
+    </div>
+
+    <div class="col-2 d-flex align-items-center">
+      <button id="store-1" [disabled]="true">
+        <div *ngFor="let item of store1">
+          <div class="stone" [ngStyle]="{'background': item}"></div>
+        </div>
+      </button>
+    </div>
+
+  </div>
+
+
+</div>
+
+<!-- <div id="col-1">
   <button id="store-1" [disabled]="true">
     <div *ngFor="let item of mainService.store1">
       <div class="stone" [ngStyle]="{'background': item}"></div>
@@ -19,4 +95,4 @@
       </div>
     </div>
   </button>
-</div>
+</div> -->
