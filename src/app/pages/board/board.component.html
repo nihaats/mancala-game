@@ -26,7 +26,7 @@
         <!-- begin:: player1 icon -->
         <thead class="text-center">
           <tr>
-            <th class="border-0">
+            <th id="board-border-0">
               <div
                 class="col-12 text-center my-3 {{
                   isPlayer1 ? '' : 'opacity-25'
@@ -65,7 +65,11 @@
               >
                 <div class="stone-layer {{ holes[i].length > 6 ? 'p-0' : '' }}">
                   <div *ngFor="let item of holes[i]">
-                    <div class="stone" [ngStyle]="{ background: item }"></div>
+                    <div class="stone {{ ((i < 6 && isPlayer1 ? false : true) &&
+                      (i > 5 && isPlayer2 ? false : true)) ||
+                    holes[i].length == 0
+                      ? 'opacity-50'
+                      : '' }}" [ngStyle]="{ background: item }"></div>
                   </div>
                 </div>
               </button>
@@ -76,7 +80,7 @@
         <!-- begin:: player2 icon -->
         <thead class="text-center">
           <tr>
-            <th class="border-0">
+            <th id="board-border-0">
               <div
                 class="col-12 text-center my-3 {{
                   isPlayer2 ? '' : 'opacity-25'
