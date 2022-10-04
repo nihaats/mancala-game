@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
-import { MainService } from './services/main.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +13,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private ngbModal: NgbModal,
-    public mainService: MainService
   ){}
 
   ngOnInit(): void {
