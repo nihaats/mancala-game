@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
-import { FirstPlayerComponent } from './pages/first-player/first-player.component';
 import { AppComponent } from './app.component';
+import { BoardComponent } from './pages/board/board.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HowToPlayComponent,
-    FirstPlayerComponent,
+    BoardComponent,
   ],
   imports: [
     BrowserModule,
