@@ -46,23 +46,29 @@ export class BoardComponent implements OnInit {
   }
 
   colors: string[] = [
-    '#E53535', //Kırmızı
-    '#D71AD0', //Pembe
-    '#1985F0', //Mavi
-    '#19F04C', //Yeşil
-    '#F8FF2F', //Sarı
-    '#52012a', //Bordo
-    '#7cb9ef', //Mavi
-    // '#000'
+    // '#E53535', //Kırmızı
+    // '#D71AD0', //Pembe
+    // '#1985F0', //Mavi
+    // '#19F04C', //Yeşil
+    // '#F8FF2F', //Sarı
+    // '#52012a', //Bordo
+    // '#7cb9ef', //Mavi
+    '#000'
   ];
 
   setColors(randomNumber: number) {
     return this.colors[randomNumber];
   }
 
-  turn(isPlayer1: boolean = false, isPlayer2: boolean = false) {
-    this.isPlayer1 = isPlayer1;
-    this.isPlayer2 = isPlayer2;
+  turn(mainIndex: number, isPlayer1: boolean = true) {
+    if(mainIndex > 6){
+      this.isPlayer1 = isPlayer1;
+      this.isPlayer2 = !isPlayer1;
+    }
+    else{
+      this.isPlayer1 = !isPlayer1;
+      this.isPlayer2 = isPlayer1;
+    }
   }
   //* end:: Inital Settings
 
@@ -76,11 +82,7 @@ export class BoardComponent implements OnInit {
 
       //* 2) #SecondAction taş sayısı 1'den fazla ise ve son yuva, store1 ise
       case 7:
-        this.stoneCountIsMoreThanOneAndNextIndexIsStore(
-          mainIndex,
-          currentIndex,
-          count
-        );
+        this.stoneCountIsMoreThanOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
       //* 3) #ThirdAction taş sayısı 1 ise ve bir sonraki yuva, store2 ise
@@ -90,16 +92,12 @@ export class BoardComponent implements OnInit {
 
       //* 4) #FourthAction taş sayısı 1'den fazla ise ve son yuva, store2 ise
       case 13:
-        this.stoneCountIsMoreThanOneAndNextIndexIsStore(
-          mainIndex,
-          currentIndex,
-          count
-        );
+        this.stoneCountIsMoreThanOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
       //* 5) #DefaultAction taş sayısı 1'den fazla ise ve son yuva, store2 ise
       default:
-        this.generalClicked(mainIndex, currentIndex, count);
+        this.defaultAction(mainIndex, currentIndex, count);
         break;
     }
   }
@@ -112,8 +110,8 @@ export class BoardComponent implements OnInit {
     if (count == 1) {
       const storeIndex = mainIndex < 6 ? this.store1Index : this.store2Index;
       this.stores[storeIndex].push(this.holes[mainIndex].shift());
-      storeIndex == this.store1Index ? this.turn(true) : this.turn(false, true);
-    } else this.generalClicked(mainIndex, currentIndex, count);
+      this.turn(mainIndex, false)
+    } else this.defaultAction(mainIndex, currentIndex, count);
   }
 
   stoneCountIsMoreThanOneAndNextIndexIsStore(
@@ -133,11 +131,12 @@ export class BoardComponent implements OnInit {
       this.stores[mainIndex < 6 ? this.store1Index : this.store2Index].push(
         lastStone
       );
-      mainIndex < 6 ? this.turn(true) : this.turn(false, true);
-    } else this.generalClicked(mainIndex, currentIndex, count);
+      this.turn(mainIndex, false)
+    }
+    else this.defaultAction(mainIndex, currentIndex, count);
   }
 
-  generalClicked(mainIndex: number, currentIndex: number, count: number) {
+  defaultAction(mainIndex: number, currentIndex: number, count: number) {
     if (count == 1) {
       const nextHoleIndex: number =
         mainIndex < 6 ? mainIndex - 1 : currentIndex + 1;
@@ -161,19 +160,19 @@ export class BoardComponent implements OnInit {
 
   //* begin:: #DefaultAction - taş sayısı 1 ise
   nextIndexEqual0AndOppositeIndexNotEqual0(mainIndex: number) {
-    const storeIndex: number =
-      mainIndex < 6 ? this.store1Index : this.store2Index;
+    const storeIndex: number = mainIndex < 6 ? this.store1Index : this.store2Index;
     this.stores[storeIndex].push(this.holes[mainIndex].shift());
     this.holes[this.oppositeIndex].forEach((x: string) => {
       this.stores[storeIndex].push(x);
     });
     this.holes[this.oppositeIndex] = [];
-    mainIndex < 6 ? this.turn(false, true) : this.turn(true);
+    this.turn(mainIndex);
+
   }
 
   pushToNextHoleIndex(nextHoleIndex: number, mainIndex: number) {
     this.holes[nextHoleIndex].push(this.holes[mainIndex].shift());
-    mainIndex < 6 ? this.turn(false, true) : this.turn(true);
+    this.turn(mainIndex);
   }
   //* end:: #DefaultAction - taş sayısı 1 ise
 
@@ -188,15 +187,13 @@ export class BoardComponent implements OnInit {
     if (currentIndexPluscount >= 0)
       this.stoneCountIsMoreThanOneAndNextIndexIsNotStore(
         mainIndex,
-        currentIndex,
-        count
+        currentIndex
       );
   }
 
   stoneCountIsMoreThanOneAndNextIndexIsNotStore(
     mainIndex: number,
-    currentIndex: number,
-    count: number
+    currentIndex: number
   ) {
     const newHoles = JSON.parse(JSON.stringify(this.holes));
     this.holes[mainIndex] = [];
@@ -220,7 +217,7 @@ export class BoardComponent implements OnInit {
         }
       }
     }
-    mainIndex < 6 ? this.turn(false, true) : this.turn(true);
+    this.turn(mainIndex);
   }
 
   currentIndexLessThanSix(
