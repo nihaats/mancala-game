@@ -114,7 +114,6 @@ export class BoardComponent implements OnInit {
       confirmButtonText: 'OK',
       allowOutsideClick: false,
     });
-    return;
   }
 
   //* end:: Inital Settings
