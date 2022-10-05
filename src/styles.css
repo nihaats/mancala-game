@@ -1,12 +1,3 @@
-#row-1, #row-2 {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
 .hole-1, .hole-2 {
     border-radius: 50%;
     width: 115px;
@@ -38,16 +29,6 @@
   z-index: 2;
 }
 
-#col-1, #col-3 {
-  width: 12%;
-  height: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  z-index: 1;
-}
-
 .stone {
   border-radius: 50%;
   width: 30px;
@@ -59,7 +40,7 @@
   margin: -7px;
 }
 
-#store-2 .stone {
+.view-stone{
   margin: -7px;
 }
 
@@ -69,30 +50,11 @@
   flex-wrap: wrap;
   height: 115px;
   position: relative;
-  /* margin: 10px; */
   box-sizing: border-box;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/wood-board.jpg);
   padding: 15px;
   display: flex;
   z-index: 1;
-  /* right: 14rem; */
-  /* top: 8rem; */
-}
-
-#store-2 {
-  border-radius: 15%;
-  min-width: 200px;
-  flex-wrap: wrap;
-  height: 115px;
-  position: relative;
-  margin: 10px;
-  box-sizing: border-box;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../src/assets/img/wood-board.jpg);
-  padding: 15px;
-  display: flex;
-  z-index: 1;
-  left: 52rem;
-  bottom: 9rem;
 }
 
 #board > div {
