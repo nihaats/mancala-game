@@ -22,21 +22,19 @@
 
   <div class="row justify-content-center">
     <div class="col-8">
-      <table class="table">
+      <table class="table" aria-describedby="board">
         <!-- begin:: player1 icon -->
         <thead class="text-center">
-          <tr>
-            <th id="board-border-0">
-              <div
-                class="col-12 text-center my-3 {{
-                  isPlayer1 ? '' : 'opacity-25'
-                }}"
-              >
-                <em class="fas fa-gamepad fa-5x"></em>
-                <h2>Player 1</h2>
-              </div>
-            </th>
-          </tr>
+          <th id="board-border-0">
+            <div
+              class="col-12 text-center my-3 {{
+                isPlayer1 ? '' : 'opacity-25'
+              }}"
+            >
+              <em class="fas fa-gamepad fa-5x"></em>
+              <h2>Player 1</h2>
+            </div>
+          </th>
         </thead>
         <!-- end:: player1 icon -->
         <!-- begin:: board -->
@@ -51,10 +49,8 @@
                 [ngStyle]="{
                   'box-shadow':
                     ((i < 6 && isPlayer1 ? false : true) &&
-                      (i > 5 && isPlayer2 ? false : true)) ||
-                    holes[i].length == 0
-                      ? '0px 0px 0px 0px #000'
-                      : '0px 1px 6px 3px #198754'
+                    (i > 5 && isPlayer2 ? false : true)) ||
+                    holes[i].length == 0 ? '0px 0px 0px 0px #000' : '0px 1px 6px 3px #198754'
                 }"
                 (click)="playerClicked(i, i < 6 ? 5 - i : i, holes[i].length)"
                 [disabled]="
@@ -65,11 +61,15 @@
               >
                 <div class="stone-layer {{ holes[i].length > 6 ? 'p-0' : '' }}">
                   <div *ngFor="let item of holes[i]">
-                    <div class="stone {{ ((i < 6 && isPlayer1 ? false : true) &&
-                      (i > 5 && isPlayer2 ? false : true)) ||
-                    holes[i].length == 0
-                      ? 'opacity-50'
-                      : '' }}" [ngStyle]="{ background: item }"></div>
+                    <div
+                      class="stone {{ holes[i].length > 5 ? 'view-stone' : ''}}
+                       {{
+                        ((i < 6 && isPlayer1 ? false : true) &&
+                        (i > 5 && isPlayer2 ? false : true)) ||
+                        holes[i].length == 0 ? 'opacity-50' : ''
+                      }}"
+                      [ngStyle]="{ background: item }"
+                    ></div>
                   </div>
                 </div>
               </button>
@@ -79,18 +79,16 @@
         <!-- end:: board -->
         <!-- begin:: player2 icon -->
         <thead class="text-center">
-          <tr>
-            <th id="board-border-0">
-              <div
-                class="col-12 text-center my-3 {{
-                  isPlayer2 ? '' : 'opacity-25'
-                }}"
-              >
-                <em class="fas fa-gamepad fa-5x"></em>
-                <h2>Player 2</h2>
-              </div>
-            </th>
-          </tr>
+          <th id="board-border-0">
+            <div
+              class="col-12 text-center my-3
+                {{ isPlayer2 ? '' : 'opacity-25' }}
+              "
+            >
+              <em class="fas fa-gamepad fa-5x"></em>
+              <h2>Player 2</h2>
+            </div>
+          </th>
         </thead>
         <!-- end:: player2 icon -->
       </table>
