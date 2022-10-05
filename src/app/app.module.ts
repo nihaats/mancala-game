@@ -4,12 +4,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { HowToPlayComponent } from './pages/how-to-play/how-to-play.component';
 import { AppComponent } from './app.component';
 import { BoardComponent } from './pages/board/board.component';
+import { HeaderComponent } from './pages/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HowToPlayComponent,
     BoardComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
