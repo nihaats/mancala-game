@@ -99,13 +99,12 @@ export class BoardComponent implements OnInit {
     let winner =
       this.stores[this.store1Index].length >
       this.stores[this.store2Index].length
-        ? 'Kazanan Player1'
-        : 'Kazanan Player2';
+        ? 'Winner Player1'
+        : 'Winner Player2';
 
     Swal.fire({
       title: 'Game Over!',
       text: winner,
-      // text: "Winner player is " + winner,
       icon: 'warning',
       confirmButtonColor: '#3085d6',
       confirmButtonText: 'OK',
@@ -207,7 +206,7 @@ export class BoardComponent implements OnInit {
         return;
       }
     }
-    if (count > 1) this.stoneCountsMoreThanOne(mainIndex, currentIndex, count);
+    if (count > 1) this.defaultActionMoreThanOne(mainIndex, currentIndex, count);
   }
 
   //* begin:: #DefaultAction - taş sayısı 1 ise
@@ -230,7 +229,8 @@ export class BoardComponent implements OnInit {
   //* end:: #DefaultAction - taş sayısı 1 ise
 
   // begin:: #DefaultAction - taş sayısı 1'den fazla ise
-  stoneCountsMoreThanOne(
+  // todo: bu method kaldırılabilir
+  defaultActionMoreThanOne(
     mainIndex: number,
     currentIndex: number,
     count: number
@@ -275,7 +275,7 @@ export class BoardComponent implements OnInit {
           this.stores[this.store2Index].push(indexToPush);
 
         if (newCurrentIndex > 12) {
-          this.holes[this.player1LastIndexValue - k].push(indexToPush);
+          this.holes[currentIndex + i > 18 ? 6 :  this.player1LastIndexValue - k].push(indexToPush);
           k = k + 1;
           this.totalStoneCheck(currentIndex, i, count, targetHole.length);
         }
@@ -293,12 +293,14 @@ export class BoardComponent implements OnInit {
     targetHoleLength: number
   ) {
     let newCurrentIndex = currentIndex + i;
+    let nextIndex = newCurrentIndex < 13 ? (newCurrentIndex - 1) : (5 - (i - 8))
+
 
     if (newCurrentIndex + 1 < 7) this.holes[mainIndex - i].push(indexToPush);
     if (newCurrentIndex + 1 == 7)
       this.stores[this.store1Index].push(indexToPush);
     if (newCurrentIndex + 1 > 7) {
-      this.holes[currentIndex - 1 + i].push(indexToPush);
+      this.holes[nextIndex].push(indexToPush);
       this.totalStoneCheck(currentIndex, i, count, targetHoleLength);
     }
   }
@@ -309,7 +311,9 @@ export class BoardComponent implements OnInit {
     count: number,
     targetHoleLength: number
   ) {
-    if (i == count - 1) {
+    console.log("totalStoneCheck Clicked");
+    let ownSide = currentIndex < 6 ?  currentIndex + count < 14 : currentIndex + count < 20
+    if (i == count - 1 && ownSide) {
       //* If the number of stones in the slot where the last stone fell is even
       let newCurrentIndex =
         currentIndex < 6
