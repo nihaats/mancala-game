@@ -25,6 +25,7 @@ export class BoardComponent implements OnInit {
     this.createStores();
   }
 
+  //* yuvaları oluşturan metot
   createHoles() {
     for (let i = 0; i < this.defaultHoleCount; i++) {
       this.holes.push([]);
@@ -32,12 +33,14 @@ export class BoardComponent implements OnInit {
     this.distributeStones();
   }
 
+  //* hazneleri oluşturan metot
   createStores() {
     for (let i = 0; i < 2; i++) {
       this.stores.push([]);
     }
   }
 
+  //* taşları dağıtan metot
   distributeStones() {
     for (let i = 0; i < this.defaultStoneCount; i++) {
       this.holes.forEach((x) => {
@@ -47,6 +50,7 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  //* renk dizisi
   colors: string[] = [
     '#E53535', //Kırmızı
     '#D71AD0', //Pembe
@@ -58,10 +62,12 @@ export class BoardComponent implements OnInit {
     '#000',
   ];
 
+  //* renkleri belirleyen metot
   setColors(randomNumber: number) {
     return this.colors[randomNumber];
   }
 
+  //* sıranın kimde olduğunu belirleyen metot
   turn(mainIndex: number, isPlayer1: boolean = true) {
     if (mainIndex > 5) {
       this.isPlayer1 = isPlayer1;
@@ -72,6 +78,7 @@ export class BoardComponent implements OnInit {
     }
   }
 
+  //* oyun bitiş kontrolü
   finishCheck(currentIndex: number) {
     let total: number = 0;
     let initalValue = currentIndex < this.firstStoreValue ? 0 : 6;
@@ -115,33 +122,34 @@ export class BoardComponent implements OnInit {
   playerClicked(mainIndex: number, currentIndex: number, count: number) {
     this.oppositeIndex = mainIndex < this.firstStoreValue ? 10 - currentIndex : currentIndex - 5;
     switch (currentIndex + count) {
-      //* 1) #FirstAction taş sayısı 1 ise ve bir sonraki yuva, store1 ise
+      //* 1) #FirstAction - taş sayısı 1 ise ve bir sonraki yuva, store1 ise
       case 6:
         this.stoneCountIsOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
-      //* 2) #SecondAction taş sayısı 1'den fazla ise ve son yuva, store1 ise
+      //* 2) #SecondAction - taş sayısı 1'den fazla ise ve son yuva, store1 ise
       case 7:
         this.stoneCountIsMoreThanOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
-      //* 3) #ThirdAction taş sayısı 1 ise ve bir sonraki yuva, store2 ise
+      //* 3) #ThirdAction - taş sayısı 1 ise ve bir sonraki yuva, store2 ise
       case 12:
         this.stoneCountIsOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
-      //* 4) #FourthAction taş sayısı 1'den fazla ise ve son yuva, store2 ise
+      //* 4) #FourthAction - taş sayısı 1'den fazla ise ve son yuva, store2 ise
       case 13:
         this.stoneCountIsMoreThanOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
-      //* 5) #DefaultAction taş sayısı 1'den fazla ise ve son yuva, store2 ise
+      //* 5) #DefaultAction - taş sayısı 1 veya 1'den fazla olduğunda ve hazneye taş düşmediğinde çalışacak metot
       default:
         this.defaultAction(mainIndex, currentIndex, count);
         break;
     }
   }
 
+  //* taş sayısı 1 ise ve bir sonraki yuva, store1/store2 ise
   stoneCountIsOneAndNextIndexIsStore(
     mainIndex: number,
     currentIndex: number,
@@ -155,6 +163,7 @@ export class BoardComponent implements OnInit {
     } else this.defaultAction(mainIndex, currentIndex, count);
   }
 
+  //* taş sayısı 1'den fazla ise ve son yuva, store1/store2 ise
   stoneCountIsMoreThanOneAndNextIndexIsStore(
     mainIndex: number,
     currentIndex: number,
@@ -176,6 +185,7 @@ export class BoardComponent implements OnInit {
     } else this.defaultAction(mainIndex, currentIndex, count);
   }
 
+  //* taş sayısı 1 veya 1'den fazla olduğunda ve hazneye taş düşmediğinde çalışacak metot
   defaultAction(mainIndex: number, currentIndex: number, count: number) {
     if (count == 1) {
       const nextHoleIndex: number =
@@ -199,6 +209,8 @@ export class BoardComponent implements OnInit {
   }
 
   //* begin:: #DefaultAction - taş sayısı 1 ise
+
+  //* bir sonraki yuvanın taş sayısı 0 ve karşı yuvanın taş sayısı 0 değilse
   nextIndexEqual0AndOppositeIndexNotEqual0(mainIndex: number) {
     const storeIndex: number =
       mainIndex < this.firstStoreValue ? this.store1Index : this.store2Index;
@@ -211,10 +223,12 @@ export class BoardComponent implements OnInit {
     this.finishCheck(mainIndex);
   }
 
+  //* bir sonraki yuvanın taş sayısı 0 ve karşı yuvanın taş sayısı 0 ise
   pushToNextHoleIndex(nextHoleIndex: number, mainIndex: number) {
     this.holes[nextHoleIndex].push(this.holes[mainIndex].shift());
     this.turn(mainIndex);
   }
+
   //* end:: #DefaultAction - taş sayısı 1 ise
 
   // begin:: #DefaultAction - taş sayısı 1'den fazla ise
@@ -226,6 +240,7 @@ export class BoardComponent implements OnInit {
     const currentIndexPluscount = currentIndex + count;
 
     if (currentIndexPluscount >= 0)
+      //* taş sayısı 1'den fazla ise ve bir sonraki yuva hazne değilse
       this.stoneCountIsMoreThanOneAndNextIndexIsNotStore(
         mainIndex,
         currentIndex,
@@ -233,6 +248,7 @@ export class BoardComponent implements OnInit {
       );
   }
 
+  //* taş sayısı 1'den fazla ise ve bir sonraki yuva hazne değilse
   stoneCountIsMoreThanOneAndNextIndexIsNotStore(
     mainIndex: number,
     currentIndex: number,
@@ -248,6 +264,7 @@ export class BoardComponent implements OnInit {
       let indexToPush = targetHole[i];
 
       if (currentIndex < this.firstStoreValue)
+        //* son taş yuvaya
         this.currentIndexLessThanSix(
           currentIndex,
           indexToPush,
@@ -257,8 +274,10 @@ export class BoardComponent implements OnInit {
           targetHole.length
         );
       else {
-          this.lastStoneNotInOpposite(newCurrentIndex, indexToPush, mainIndex, i);
+        //* taş, kendi tarafına düşüyorsa veya kendi haznesine düşüyorsa çalışacak metot
+        this.lastStoneNotInOpposite(newCurrentIndex, indexToPush, mainIndex, i);
 
+        //* taş, karşı oyuncunun tarafına geçiyorsa
         if (newCurrentIndex > 12) {
           this.holes[currentIndex + i > 18 ? this.firstStoreValue :  this.player1LastIndexValue - k].push(indexToPush);
           k = k + 1;
@@ -269,6 +288,7 @@ export class BoardComponent implements OnInit {
     this.turn(mainIndex);
   }
 
+  //* taş karşı oyuncunun tarafına geçtiğinde
   currentIndexLessThanSix(
     currentIndex: number,
     indexToPush: string,
@@ -278,17 +298,20 @@ export class BoardComponent implements OnInit {
     targetHoleLength: number
   ) {
     let newCurrentIndex = currentIndex + i;
-    let nextIndex = newCurrentIndex < 13 ? (newCurrentIndex - 1) : (5 - (i - 8))
+    let nextIndex = newCurrentIndex < 13 ? (newCurrentIndex - 1) : (this.player1LastIndexValue - (i - 8))
 
+    //* taş, kendi tarafına düşüyorsa veya kendi haznesine düşüyorsa çalışacak metot
     this.lastStoneNotInOpposite(newCurrentIndex, indexToPush, mainIndex, i);
+
+    //* taş, karşı oyuncunun tarafına geçiyorsa
     if (newCurrentIndex + 1 > 7) {
       this.holes[nextIndex].push(indexToPush);
       this.totalStoneCheck(currentIndex, i, count, targetHoleLength);
     }
   }
 
+  //*(Player1 ve Player2 ortak metot) taş, kendi tarafına düşüyorsa veya kendi haznesine düşüyorsa çalışacak metot
   lastStoneNotInOpposite(newCurrentIndex: number, indexToPush: string, mainIndex: number, i: number){
-
     let conditionValue = mainIndex < this.firstStoreValue ? 7 : 12
     let mainValue = mainIndex < this.firstStoreValue ? newCurrentIndex + 1 : newCurrentIndex
     let valueOfHole = mainIndex < this.firstStoreValue ? mainIndex - i : newCurrentIndex
@@ -299,6 +322,7 @@ export class BoardComponent implements OnInit {
 
   }
 
+  //* taşlar yuvalara düştüğünde, son yuvanın toplam taş sayısının çift veya tek kontrolünün yapıldığı metot
   totalStoneCheck(
     currentIndex: number,
     i: number,
