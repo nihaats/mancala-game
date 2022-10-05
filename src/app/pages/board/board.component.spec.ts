@@ -1,12 +1,9 @@
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BoardComponent } from './board.component';
 
 describe('BoardComponent', () => {
   let component: BoardComponent;
   let fixture: ComponentFixture<BoardComponent>;
-  let debugElement: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
