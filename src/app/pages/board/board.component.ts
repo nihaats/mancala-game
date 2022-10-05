@@ -17,6 +17,7 @@ export class BoardComponent implements OnInit {
   isPlayer1: boolean = true;
   isPlayer2: boolean = false;
   oppositeIndex: number = 0;
+  firstStoreValue: number = 6;
 
   //* begin:: Inital Settings
   ngOnInit(): void {
@@ -73,16 +74,13 @@ export class BoardComponent implements OnInit {
 
   finishCheck(currentIndex: number) {
     let total: number = 0;
-    let initalValue = currentIndex < 6 ? 0 : 6;
-    let finishValue = currentIndex < 6 ? 5 : 11;
-
-    let oppositeInitialValue = currentIndex < 6 ? 6 : 0;
-    let oppositeFinishValue = currentIndex < 6 ? 11 : 5;
-
-    let currentStore =
-      currentIndex < 6
-        ? this.stores[this.store1Index]
-        : this.stores[this.store2Index];
+    let initalValue = currentIndex < this.firstStoreValue ? 0 : 6;
+    let finishValue = currentIndex < this.firstStoreValue ? 5 : 11;
+    let oppositeInitialValue = currentIndex < this.firstStoreValue ? 6 : 0;
+    let oppositeFinishValue = currentIndex < this.firstStoreValue ? 11 : 5;
+    let firstStore = this.stores[this.store1Index];
+    let secondStore = this.stores[this.store2Index];
+    let currentStore = currentIndex < this.firstStoreValue ? firstStore : secondStore;
 
     for (let i = initalValue; i <= finishValue; i++) {
       total += this.holes[i].length;
@@ -96,15 +94,14 @@ export class BoardComponent implements OnInit {
       }
     } else return;
 
-    let winner =
-      this.stores[this.store1Index].length >
-      this.stores[this.store2Index].length
-        ? 'Winner Player1'
-        : 'Winner Player2';
+    let winner = firstStore.length > secondStore.length && firstStore.length != secondStore.length ?
+    'Winner Player1' : 'Winner Player2';
+
+    let equal = firstStore.length == secondStore.length ? 'Winner Player1 & Player2' : ''
 
     Swal.fire({
       title: 'Game Over!',
-      text: winner,
+      text: winner || equal,
       icon: 'warning',
       confirmButtonColor: '#3085d6',
       confirmButtonText: 'OK',
@@ -116,7 +113,7 @@ export class BoardComponent implements OnInit {
   //* end:: Inital Settings
 
   playerClicked(mainIndex: number, currentIndex: number, count: number) {
-    this.oppositeIndex = mainIndex < 6 ? 10 - currentIndex : currentIndex - 5;
+    this.oppositeIndex = mainIndex < this.firstStoreValue ? 10 - currentIndex : currentIndex - 5;
     switch (currentIndex + count) {
       //* 1) #FirstAction taş sayısı 1 ise ve bir sonraki yuva, store1 ise
       case 6:
@@ -125,11 +122,7 @@ export class BoardComponent implements OnInit {
 
       //* 2) #SecondAction taş sayısı 1'den fazla ise ve son yuva, store1 ise
       case 7:
-        this.stoneCountIsMoreThanOneAndNextIndexIsStore(
-          mainIndex,
-          currentIndex,
-          count
-        );
+        this.stoneCountIsMoreThanOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
       //* 3) #ThirdAction taş sayısı 1 ise ve bir sonraki yuva, store2 ise
@@ -139,11 +132,7 @@ export class BoardComponent implements OnInit {
 
       //* 4) #FourthAction taş sayısı 1'den fazla ise ve son yuva, store2 ise
       case 13:
-        this.stoneCountIsMoreThanOneAndNextIndexIsStore(
-          mainIndex,
-          currentIndex,
-          count
-        );
+        this.stoneCountIsMoreThanOneAndNextIndexIsStore(mainIndex, currentIndex, count);
         break;
 
       //* 5) #DefaultAction taş sayısı 1'den fazla ise ve son yuva, store2 ise
@@ -159,7 +148,7 @@ export class BoardComponent implements OnInit {
     count: number
   ) {
     if (count == 1) {
-      const storeIndex = mainIndex < 6 ? this.store1Index : this.store2Index;
+      const storeIndex = mainIndex < this.firstStoreValue ? this.store1Index : this.store2Index;
       this.stores[storeIndex].push(this.holes[mainIndex].shift());
       this.turn(mainIndex, false);
       this.finishCheck(mainIndex);
@@ -176,11 +165,11 @@ export class BoardComponent implements OnInit {
       const newHoles = JSON.parse(JSON.stringify(this.holes));
       this.holes[mainIndex] = [];
       for (let i = 0; i < newHoles[mainIndex].length; i++) {
-        this.holes[mainIndex < 6 ? mainIndex - i : mainIndex + i].push(
+        this.holes[mainIndex < this.firstStoreValue ? mainIndex - i : mainIndex + i].push(
           newHoles[mainIndex][i]
         );
       }
-      this.stores[mainIndex < 6 ? this.store1Index : this.store2Index].push(
+      this.stores[mainIndex < this.firstStoreValue ? this.store1Index : this.store2Index].push(
         lastStone
       );
       this.turn(mainIndex, false);
@@ -190,7 +179,7 @@ export class BoardComponent implements OnInit {
   defaultAction(mainIndex: number, currentIndex: number, count: number) {
     if (count == 1) {
       const nextHoleIndex: number =
-        mainIndex < 6 ? mainIndex - 1 : currentIndex + 1;
+        mainIndex < this.firstStoreValue ? mainIndex - 1 : currentIndex + 1;
       const nextHoleIndexLength = this.holes[nextHoleIndex].length;
       const oppositeIndexLength = this.holes[this.oppositeIndex].length;
 
@@ -212,7 +201,7 @@ export class BoardComponent implements OnInit {
   //* begin:: #DefaultAction - taş sayısı 1 ise
   nextIndexEqual0AndOppositeIndexNotEqual0(mainIndex: number) {
     const storeIndex: number =
-      mainIndex < 6 ? this.store1Index : this.store2Index;
+      mainIndex < this.firstStoreValue ? this.store1Index : this.store2Index;
     this.stores[storeIndex].push(this.holes[mainIndex].shift());
     this.holes[this.oppositeIndex].forEach((x: string) => {
       this.stores[storeIndex].push(x);
@@ -229,7 +218,6 @@ export class BoardComponent implements OnInit {
   //* end:: #DefaultAction - taş sayısı 1 ise
 
   // begin:: #DefaultAction - taş sayısı 1'den fazla ise
-  // todo: bu method kaldırılabilir
   defaultActionMoreThanOne(
     mainIndex: number,
     currentIndex: number,
@@ -259,7 +247,7 @@ export class BoardComponent implements OnInit {
       let newCurrentIndex = currentIndex + i;
       let indexToPush = targetHole[i];
 
-      if (currentIndex < 6)
+      if (currentIndex < this.firstStoreValue)
         this.currentIndexLessThanSix(
           currentIndex,
           indexToPush,
@@ -269,13 +257,10 @@ export class BoardComponent implements OnInit {
           targetHole.length
         );
       else {
-        if (newCurrentIndex < 12) this.holes[newCurrentIndex].push(indexToPush);
-
-        if (newCurrentIndex == 12)
-          this.stores[this.store2Index].push(indexToPush);
+          this.lastStoneNotInOpposite(newCurrentIndex, indexToPush, mainIndex, i);
 
         if (newCurrentIndex > 12) {
-          this.holes[currentIndex + i > 18 ? 6 :  this.player1LastIndexValue - k].push(indexToPush);
+          this.holes[currentIndex + i > 18 ? this.firstStoreValue :  this.player1LastIndexValue - k].push(indexToPush);
           k = k + 1;
           this.totalStoneCheck(currentIndex, i, count, targetHole.length);
         }
@@ -295,14 +280,23 @@ export class BoardComponent implements OnInit {
     let newCurrentIndex = currentIndex + i;
     let nextIndex = newCurrentIndex < 13 ? (newCurrentIndex - 1) : (5 - (i - 8))
 
-
-    if (newCurrentIndex + 1 < 7) this.holes[mainIndex - i].push(indexToPush);
-    if (newCurrentIndex + 1 == 7)
-      this.stores[this.store1Index].push(indexToPush);
+    this.lastStoneNotInOpposite(newCurrentIndex, indexToPush, mainIndex, i);
     if (newCurrentIndex + 1 > 7) {
       this.holes[nextIndex].push(indexToPush);
       this.totalStoneCheck(currentIndex, i, count, targetHoleLength);
     }
+  }
+
+  lastStoneNotInOpposite(newCurrentIndex: number, indexToPush: string, mainIndex: number, i: number){
+
+    let conditionValue = mainIndex < this.firstStoreValue ? 7 : 12
+    let mainValue = mainIndex < this.firstStoreValue ? newCurrentIndex + 1 : newCurrentIndex
+    let valueOfHole = mainIndex < this.firstStoreValue ? mainIndex - i : newCurrentIndex
+    let valueOfStore = mainIndex < this.firstStoreValue ? this.store1Index : this.store2Index
+
+    if (mainValue < conditionValue) this.holes[valueOfHole].push(indexToPush);
+    if (mainValue == conditionValue) this.stores[valueOfStore].push(indexToPush);
+
   }
 
   totalStoneCheck(
@@ -311,15 +305,14 @@ export class BoardComponent implements OnInit {
     count: number,
     targetHoleLength: number
   ) {
-    console.log("totalStoneCheck Clicked");
-    let ownSide = currentIndex < 6 ?  currentIndex + count < 14 : currentIndex + count < 20
+    let ownSide = currentIndex < this.firstStoreValue ?  currentIndex + count < 14 : currentIndex + count < 20
     if (i == count - 1 && ownSide) {
-      //* If the number of stones in the slot where the last stone fell is even
+      //* son taş yuvaya düştüğünde toplam taş sayısı çift ise
       let newCurrentIndex =
-        currentIndex < 6
+        currentIndex < this.firstStoreValue
           ? currentIndex + targetHoleLength - 2
           : this.player1LastIndexValue - (currentIndex + count - 14);
-      let targetStore = currentIndex < 6 ? this.store1Index : this.store2Index;
+      let targetStore = currentIndex < this.firstStoreValue ? this.store1Index : this.store2Index;
 
       if (this.holes[newCurrentIndex].length % 2 == 0) {
         this.holes[newCurrentIndex].forEach((x: string) => {
